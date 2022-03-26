@@ -3,6 +3,12 @@ variable "folder" {
   type        = string
 }
 
+variable "fullscreen" {
+  description = "Whether or not the VM should be started in fullscreen mode"
+  type        = bool
+  default     = false
+}
+
 variable "name" {
   description = "The name of the VM"
   type        = string

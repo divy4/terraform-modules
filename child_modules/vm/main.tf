@@ -14,6 +14,7 @@ resource "null_resource" "vm" {
     command     = <<-EOF
       VBoxManage import ${self.triggers.template} --vsys 0 --vmname ${self.triggers.name} --basefolder ${self.triggers.folder}
       VBoxManage modifyvm ${self.triggers.name} --nic1 natnetwork --nat-network1 ${self.triggers.nat_network}
+      VBoxManage setextradata ${self.triggers.name} GUI/Fullscreen ${var.fullscreen}
       VBoxManage startvm ${self.triggers.name}
     EOF
     interpreter = ["powershell", "-Command"]
