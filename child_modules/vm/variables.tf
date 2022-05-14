@@ -9,6 +9,12 @@ variable "fullscreen" {
   default     = false
 }
 
+variable "mac_address" {
+  description = "The mac address the VM should have, defaults to 'auto'"
+  type        = string
+  default     = "auto"
+}
+
 variable "name" {
   description = "The name of the VM"
   type        = string
