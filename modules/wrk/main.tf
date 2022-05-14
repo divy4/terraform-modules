@@ -10,6 +10,7 @@ module "vm" {
   source      = "../../child_modules/vm"
   folder      = "T:\\vms\\"
   fullscreen  = true
+  mac_address = "000400000001"
   name        = "dev.wrk.danivy.com"
   nat_network = "wrk"
   template    = "C:\\vms\\templates\\ansible-development-echo\\ansible-development-echo.ovf"
