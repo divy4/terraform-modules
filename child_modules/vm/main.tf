@@ -1,7 +1,4 @@
-# Yes, I know there is a VirtualBox module in the registry.
-# But it doesn't support Windows right now and I didn't have the time to help
-# them add that support.
-
+# TODO: Switch to terraform provider or use another hypervisor
 resource "null_resource" "vm" {
   triggers = {
     folder      = var.folder
@@ -13,21 +10,24 @@ resource "null_resource" "vm" {
 
   provisioner "local-exec" {
     command     = <<-EOF
+      set -euo pipefail
       VBoxManage import ${self.triggers.template} --vsys 0 --vmname ${self.triggers.name} --basefolder ${self.triggers.folder}
       VBoxManage modifyvm ${self.triggers.name} --nic1 natnetwork --nat-network1 ${self.triggers.nat_network} --macaddress1 ${self.triggers.mac_address}
       VBoxManage setextradata ${self.triggers.name} GUI/Fullscreen ${var.fullscreen}
       VBoxManage startvm ${self.triggers.name}
+      VBoxManage controlvm ${self.triggers.name} setvideomodehint 3440 1440 100
     EOF
-    interpreter = ["powershell", "-Command"]
   }
 
   provisioner "local-exec" {
     command     = <<-EOF
-      VBoxManage controlvm ${self.triggers.name} poweroff
-      Start-Sleep 1
+      set -euo pipefail
+      if VBoxManage list runningvms | grep --quiet '^"${self.triggers.name}"'; then
+        VBoxManage controlvm ${self.triggers.name} poweroff
+        sleep 1
+      fi
       VBoxManage unregistervm ${self.triggers.name} --delete
     EOF
-    interpreter = ["powershell", "-Command"]
     when        = destroy
   }
 }
