@@ -1,5 +1,5 @@
 module "vm" {
-  source      = "../../child_modules/vm"
+  source      = "../../child_modules/components/virtualbox/vm"
   folder      = "/tmp/vms"
   fullscreen  = true
   mac_address = "000401000001"
