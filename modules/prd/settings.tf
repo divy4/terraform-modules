@@ -1,0 +1,6 @@
+locals {
+  users = {
+    "dan"  : {}
+    "dave" : {}
+  }
+}
